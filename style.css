@@ -115,6 +115,25 @@ input:focus {
     transform: translateY(-5px);
 }
 
+.player.active {
+    border: 2px solid var(--secondary-color);
+}
+
+.player-chips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.chips-count {
+    margin-right: 5px;
+}
+
+.fa-coins {
+    transition: all 0.3s ease;
+}
+
 .pot {
     margin: 30px 0;
     font-size: 1.4rem;
