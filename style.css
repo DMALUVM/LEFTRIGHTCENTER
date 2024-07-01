@@ -14,10 +14,18 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+    width: 100%;
 }
 
-.player, #center-pot {
-    margin: 10px 0;
+label {
+    margin-right: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
 }
 
 button {
@@ -25,6 +33,27 @@ button {
     font-size: 16px;
     cursor: pointer;
     margin-top: 20px;
+}
+
+#players {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.player {
+    background: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    width: 100px;
+    text-align: center;
+}
+
+#center-pot {
+    margin: 20px 0;
+    font-size: 1.2rem;
 }
 
 #dice {
