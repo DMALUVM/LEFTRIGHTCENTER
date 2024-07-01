@@ -1,14 +1,40 @@
-const players = [
-    { name: "Player 1", chips: 3 },
-    { name: "Player 2", chips: 3 },
-    { name: "Player 3", chips: 3 },
-];
-
+let players = [];
 let currentPlayerIndex = 0;
-const centerPot = { chips: 0 };
+let centerPot = 0;
 const diceSides = ["L", "R", "C", ".", ".", "."];
 
+document.getElementById("start-btn").addEventListener("click", startGame);
 document.getElementById("roll-btn").addEventListener("click", rollDice);
+
+function startGame() {
+    const numPlayers = parseInt(document.getElementById("numPlayers").value);
+    const buyIn = parseInt(document.getElementById("buyIn").value);
+
+    players = [];
+    for (let i = 0; i < numPlayers; i++) {
+        players.push({ name: `Player ${i + 1}`, chips: buyIn });
+    }
+
+    centerPot = 0;
+    currentPlayerIndex = 0;
+
+    document.getElementById("setup").style.display = "none";
+    document.getElementById("game").style.display = "block";
+    displayPlayers();
+    updatePlayerDisplay();
+}
+
+function displayPlayers() {
+    const playersContainer = document.getElementById("players");
+    playersContainer.innerHTML = '';
+    players.forEach((player, index) => {
+        const playerDiv = document.createElement("div");
+        playerDiv.id = `player${index}`;
+        playerDiv.className = "player";
+        playerDiv.innerHTML = `${player.name}: $<span class="chips">${player.chips}</span>`;
+        playersContainer.appendChild(playerDiv);
+    });
+}
 
 function rollDice() {
     const diceResults = [
@@ -40,7 +66,7 @@ function processDiceResults(diceResults) {
                 passChips(currentPlayerIndex, (currentPlayerIndex + 1) % players.length);
             } else if (result === "C") {
                 currentPlayer.chips--;
-                centerPot.chips++;
+                centerPot++;
             }
         }
     });
@@ -55,9 +81,9 @@ function passChips(fromIndex, toIndex) {
 
 function updatePlayerDisplay() {
     players.forEach((player, index) => {
-        document.getElementById(`player${index + 1}`).querySelector(".chips").textContent = player.chips;
+        document.getElementById(`player${index}`).querySelector(".chips").textContent = player.chips;
     });
-    document.getElementById("center-pot").querySelector(".chips").textContent = centerPot.chips;
+    document.getElementById("center-pot").querySelector(".chips").textContent = centerPot;
 }
 
 function switchPlayer() {
