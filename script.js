@@ -37,6 +37,7 @@ function startGame() {
     document.getElementById("game").style.display = "block";
     displayPlayers();
     updatePlayerDisplay();
+    document.getElementById("roll-btn").disabled = false;
 }
 
 function displayPlayers() {
