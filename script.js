@@ -66,8 +66,8 @@ function displayPlayers() {
         playerDiv.innerHTML = `
             <div class="player-name">${player.name}</div>
             <div class="player-chips">
-                <span class="chips-count">${player.chips}</span>
-                <i class="fas fa-coins"></i>
+                <div class="chip-stack"></div>
+                <span class="chips-count">$${player.chips}</span>
             </div>
         `;
         playersContainer.appendChild(playerDiv);
@@ -141,17 +141,18 @@ function updatePlayerDisplay() {
     players.forEach((player, index) => {
         const playerElement = document.getElementById(`player${index}`);
         const chipsCount = playerElement.querySelector(".chips-count");
-        const chipsIcon = playerElement.querySelector(".fa-coins");
+        const chipStack = playerElement.querySelector(".chip-stack");
         
-        chipsCount.textContent = player.chips;
+        chipsCount.textContent = `$${player.chips}`;
         
-        // Update the size of the chips icon based on the number of chips
-        const iconSize = Math.max(1, Math.min(2, player.chips / 10)); // Scale between 1x and 2x
-        chipsIcon.style.fontSize = `${iconSize}em`;
-        
-        // Update the color of the chips icon based on the number of chips
-        const hue = Math.min(120, player.chips * 4); // Scale from red (0) to green (120)
-        chipsIcon.style.color = `hsl(${hue}, 100%, 50%)`;
+        // Update the chip stack
+        chipStack.innerHTML = '';
+        const numChips = Math.min(10, Math.ceil(player.chips / 3)); // Max 10 chips in stack
+        for (let i = 0; i < numChips; i++) {
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chipStack.appendChild(chip);
+        }
         
         playerElement.classList.toggle("active", index === currentPlayerIndex);
     });
