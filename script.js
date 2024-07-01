@@ -3,8 +3,22 @@ let currentPlayerIndex = 0;
 let centerPot = 0;
 const diceSides = ["L", "R", "C", ".", ".", "."];
 
+document.getElementById("numPlayers").addEventListener("change", updatePlayerInputs);
 document.getElementById("start-btn").addEventListener("click", startGame);
 document.getElementById("roll-btn").addEventListener("click", rollDice);
+
+function updatePlayerInputs() {
+    const numPlayers = parseInt(document.getElementById("numPlayers").value);
+    const playerNamesDiv = document.getElementById("playerNames");
+    playerNamesDiv.innerHTML = '';
+    for (let i = 0; i < numPlayers; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = `playerName${i}`;
+        input.placeholder = `Player ${i + 1} Name`;
+        playerNamesDiv.appendChild(input);
+    }
+}
 
 function startGame() {
     const numPlayers = parseInt(document.getElementById("numPlayers").value);
@@ -12,7 +26,8 @@ function startGame() {
 
     players = [];
     for (let i = 0; i < numPlayers; i++) {
-        players.push({ name: `Player ${i + 1}`, chips: buyIn });
+        const playerName = document.getElementById(`playerName${i}`).value || `Player ${i + 1}`;
+        players.push({ name: playerName, chips: buyIn });
     }
 
     centerPot = 0;
