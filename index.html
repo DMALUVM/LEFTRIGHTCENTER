@@ -5,29 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Left Right Center Game</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Left Right Center Game</h1>
-        <div id="setup">
-            <label for="numPlayers">Number of Players:</label>
-            <input type="number" id="numPlayers" min="2" max="10" value="3">
-            <label for="buyIn">Buy-In Amount:</label>
-            <input type="number" id="buyIn" min="1" value="3">
-            <div id="playerNames"></div>
-            <button id="start-btn">Start Game</button>
-        </div>
-        <div id="game" style="display:none;">
-            <div id="players"></div>
-            <div id="center-pot">Center Pot: $<span class="chips">0</span></div>
-            <button id="roll-btn">Roll Dice</button>
-            <div id="dice">
-                <span class="die" id="die1"></span>
-                <span class="die" id="die2"></span>
-                <span class="die" id="die3"></span>
-            </div>
-            <div id="message"></div>
-        </div>
+        <header>
+            <h1>Left Right Center Game</h1>
+        </header>
+        <main>
+            <section id="setup">
+                <h2>Game Setup</h2>
+                <div class="input-group">
+                    <label for="numPlayers">Number of Players:</label>
+                    <input type="number" id="numPlayers" min="2" max="10" value="3">
+                </div>
+                <div class="input-group">
+                    <label for="buyIn">Buy-In Amount:</label>
+                    <input type="number" id="buyIn" min="1" value="3">
+                </div>
+                <div id="playerNames"></div>
+                <button id="start-btn" class="btn btn-primary">Start Game</button>
+            </section>
+            <section id="game" class="hidden">
+                <div id="players" class="player-list"></div>
+                <div id="center-pot" class="pot">Center Pot: $<span class="chips">0</span></div>
+                <div id="current-player" class="current-player"></div>
+                <button id="roll-btn" class="btn btn-action">Roll Dice</button>
+                <div id="dice" class="dice-container">
+                    <div class="die" id="die1"></div>
+                    <div class="die" id="die2"></div>
+                    <div class="die" id="die3"></div>
+                </div>
+                <div id="message" class="message"></div>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Left Right Center Game. All rights reserved.</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
