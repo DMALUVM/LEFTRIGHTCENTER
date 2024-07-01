@@ -25,22 +25,24 @@ function updatePlayerInputs() {
 
 function startGame() {
     const numPlayers = parseInt(document.getElementById("numPlayers").value);
-    const buyIn = parseInt(document.getElementById("buyIn").value);
+    const buyInPerSpot = parseInt(document.getElementById("buyIn").value);
     
     if (numPlayers < 2 || numPlayers > 10) {
         showMessage("Please enter a number of players between 2 and 10.", "error");
         return;
     }
     
-    if (buyIn < 1) {
-        showMessage("Please enter a buy-in amount of at least 1.", "error");
+    if (buyInPerSpot < 1) {
+        showMessage("Please enter a buy-in amount of at least 1 per spot.", "error");
         return;
     }
+    
+    const totalBuyIn = buyInPerSpot * 3; // 3 spots per player
     
     players = [];
     for (let i = 0; i < numPlayers; i++) {
         const playerName = document.getElementById(`playerName${i}`).value.trim() || `Player ${i + 1}`;
-        players.push({ name: playerName, chips: buyIn });
+        players.push({ name: playerName, chips: totalBuyIn });
     }
     
     centerPot = 0;
@@ -51,7 +53,7 @@ function startGame() {
     updatePlayerDisplay();
     updateCurrentPlayerDisplay();
     document.getElementById("roll-btn").disabled = false;
-    showMessage("Game started! " + players[currentPlayerIndex].name + "'s turn.", "info");
+    showMessage(`Game started! Each player starts with $${totalBuyIn}. ${players[currentPlayerIndex].name}'s turn.`, "info");
 }
 
 function displayPlayers() {
@@ -63,7 +65,10 @@ function displayPlayers() {
         playerDiv.className = "player";
         playerDiv.innerHTML = `
             <div class="player-name">${player.name}</div>
-            <div class="player-chips">$<span class="chips">${player.chips}</span></div>
+            <div class="player-chips">
+                <span class="chips-count">${player.chips}</span>
+                <i class="fas fa-coins"></i>
+            </div>
         `;
         playersContainer.appendChild(playerDiv);
     });
@@ -135,7 +140,19 @@ function passChips(fromIndex, toIndex) {
 function updatePlayerDisplay() {
     players.forEach((player, index) => {
         const playerElement = document.getElementById(`player${index}`);
-        playerElement.querySelector(".chips").textContent = player.chips;
+        const chipsCount = playerElement.querySelector(".chips-count");
+        const chipsIcon = playerElement.querySelector(".fa-coins");
+        
+        chipsCount.textContent = player.chips;
+        
+        // Update the size of the chips icon based on the number of chips
+        const iconSize = Math.max(1, Math.min(2, player.chips / 10)); // Scale between 1x and 2x
+        chipsIcon.style.fontSize = `${iconSize}em`;
+        
+        // Update the color of the chips icon based on the number of chips
+        const hue = Math.min(120, player.chips * 4); // Scale from red (0) to green (120)
+        chipsIcon.style.color = `hsl(${hue}, 100%, 50%)`;
+        
         playerElement.classList.toggle("active", index === currentPlayerIndex);
     });
     document.getElementById("center-pot").querySelector(".chips").textContent = centerPot;
